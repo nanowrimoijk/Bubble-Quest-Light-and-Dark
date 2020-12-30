@@ -605,37 +605,43 @@ while storyline_start == "y":
     print("\nSTART!")
 
     player_bubble_amt = 0
-
-    delay_print(
-        "\n\n\n\n\nBubbles are mysterious creatures with magical powers.\nOur world is filled with these wonderful and powerful creatures.\nOnly three people every year are chosen to start their Bubble Quest here in my labratory.\n"
-    )
-
-    delay_print(
-        "\nI am Professor 2.\nToday I will be helping you start your very own Bubble Quest, the same way I have helped many trainers before you.\n"
-    )
+    delay_print("\nDo you want to skip the tutorial?(Y or N)\n")
+    skip_tutorial = input(str(''))
+    
+    while skip_tutorial == 'N':
 
 
-    delay_print(
-        "\nBefore you start your Bubble Quest, you will need a bubble to help you.\nYou can choose one from the three bubbles I have here.\n"
-    )
+      delay_print(
+          "\n\n\n\n\nBubbles are mysterious creatures with magical powers.\nOur world is filled with these wonderful and powerful creatures.\nOnly three people every year are chosen to start their Bubble Quest here in my labratory.\n"
+      )
 
-    delay_print("\n-You reach towards the bubbles.-\n")
+      delay_print(
+          "\nI am Professor 2.\nToday I will be helping you start your very own Bubble Quest, the same way I have helped many trainers before you.\n"
+      )
 
-    delay_print(
-        "\nDon't choose yet! I need to tell you more about the rules!\nThe bubble with the higher speed goes first in a battle, but if they have the same speed the first attacker is declared randomly.\n"
-    )
 
-    delay_print(
-        "\nWhen it's your turn, you use a move.\nLess powerful moves do less damage, but give you energy, the opposite happens for stronger moves, they do more damage, but use your energy.\nSpeaking of energy, if you don't have any energy left during a battle, your bubble loses health. In this region, they only lose 5 health.\n"
-    )
+      delay_print(
+          "\nBefore you start your Bubble Quest, you will need a bubble to help you.\nYou can choose one from the three bubbles I have here.\n"
+      )
 
-    delay_print(
-        "\nSome bubbles can also evolve.\nFor example, Gunner bubble can evolve into Laser bubble once it reaches a certain level.\nAlso, once a bubble reaches a certain level, it can even learn a new move!\n"
-    )
+      delay_print("\n-You reach towards the bubbles.-\n")
 
-    delay_print(
-        "\nNow that you know more about the rules of bubble quest, I think it is time for you to choose your bubble.\n"
-    )
+      delay_print(
+          "\nDon't choose yet! I need to tell you more about the rules!\nThe bubble with the higher speed goes first in a battle, but if they have the same speed the first attacker is declared randomly.\n"
+      )
+
+      delay_print(
+          "\nWhen it's your turn, you use a move.\nLess powerful moves do less damage, but give you energy, the opposite happens for stronger moves, they do more damage, but use your energy.\nSpeaking of energy, if you don't have any energy left during a battle, your bubble loses health. In this region, they only lose 5 health.\n"
+      )
+
+      delay_print(
+          "\nSome bubbles can also evolve.\nFor example, Gunner bubble can evolve into Laser bubble once it reaches a certain level.\nAlso, once a bubble reaches a certain level, it can even learn a new move!\n"
+      )
+
+      delay_print(
+          "\nNow that you know more about the rules of bubble quest, I think it is time for you to choose your bubble.\n"
+      )
+      break
 
     delay_print(f"\n{jab.stats}\n")
 
@@ -667,14 +673,17 @@ while storyline_start == "y":
         if (bubble1 == "mow"):
             player_deck.append(mow)
             deck_name.append("Mow")
+            delay_print('You choose MOW!\n')
             player_bubble_amt += 1
         if (bubble1 == "jab"):
             player_deck.append(jab)
             deck_name.append("Jab")
+            delay_print('You choose JAB!\n')
             player_bubble_amt += 1
         if (bubble1 == "spin"):
             player_deck.append(spin)
             deck_name.append("Spin")
+            delay_print('You choose SPIN!\n')
             player_bubble_amt += 1
 
         break
