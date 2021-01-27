@@ -1,6 +1,7 @@
 import time
 import sys
 import random
+import colorama
 #vars
 capture_disc_count=[]
 opponent_name = []
@@ -90,7 +91,7 @@ deck_name = []
 
 skip = input(f"{bcolors.ROCK_TYPE}Do you want to skip the credits? Type y to skip: {bcolors.ENDC}")
 if skip == "MONEY":
-  player_money = 1000
+  money = 1000
   begin_delay_timer = 0
 if skip ==  "y":
   begin_delay_timer = 0
@@ -223,7 +224,8 @@ def shop(item_amount,luck):
   )
   buy = True
   while buy == True:
-    delay_print(f"1.) Evolution Stone: ${evolution_stone_price}\n2.) Strength Potion: ${strength_potion_price}\n3.) Health Potion: ${health_potion_price}\n4.) Revive: ${revive_price}\n")
+    delay_print(f"{bcolors.OKGREEN}\nYou have {len(money)}$, what would you like to buy?\n")
+    delay_print(f"{bcolors.DEFAULT}1.) Evolution Stone: ${evolution_stone_price}\n2.) Strength Potion: ${strength_potion_price}\n3.) Health Potion: ${health_potion_price}\n4.) Revive: ${revive_price}\n")
     delay_print("Which one do you want?(press n to leave the shop)\n")
     shop_item = input('')
     if shop_item == '2':
@@ -798,7 +800,8 @@ class Bubble:
             lost_contest_1.append(0)
       if(self_health[0] > oppo_health[0]):
         delay_print(f"\n{self.name} is happy that it won!\n\n")
-        actions = input(f"\n1: Change Name (current: {self.name} Cost: $100)\n\n2: Upgrade base energy (Cost: $1500 = +2 base energy)\n3: Upgrade base health (Cost $1500 = +2 base health)\n(Warning: Base Energy and Base Health will reset once a bubble evolves)\n\n4: Level up Bubble (Cost: ${(self.XP_MAX-self.XP)*30})\n(Type the number of the action you want to make)\n")
+        delay_print(f"{bcolors.OKGREEN}\nYou have {len(money)} dollars, what would you like to buy?")
+        actions = input(f"{bcolors.DEFAULLT}\n1: Change Name (current: {self.name} Cost: $100)\n\n2: Upgrade base energy (Cost: $1500 = +2 base energy)\n3: Upgrade base health (Cost $1500 = +2 base health)\n(Warning: Base Energy and Base Health will reset once a bubble evolves)\n\n4: Level up Bubble (Cost: ${(self.XP_MAX-self.XP)*30})\n(Type the number of the action you want to make)\n")
         if actions == "1":
           if len(money) >= 100:
             for i in range(100):
