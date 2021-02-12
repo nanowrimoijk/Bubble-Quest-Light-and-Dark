@@ -2,58 +2,21 @@ import time
 import sys
 import random
 import colorama
+from os import system
+from helper import *
+from helper import money
 #vars
 capture_disc_count=[]
 opponent_name = []
 berries = [1,1,1,1,1,1,1,1,1,1]
 lost_contest_1 = []
 lost_grunt_1 = []
-money = []
+
 battle_valid_used = []
 health_potion = []
 strength_potion = []
 revive = [1]
-for i in range(10000): #change back to 1000 later
-  money.append(1)
-class bcolors:
-  HEADER = '\033[95m'
-  OKGREEN = '\033[1;32;40m'
-  OKBLUE = '\033[94m'
-  WARNING = '\033[93m'
-  FAIL = '\033[91m'
-  ENDC = '\033[0m'
-  DEFAULT = '\033[0m'
-  BOLD = '\033[1m'
-  UNDERLINE = '\033[4m'
 
-  CBLACK  = '\33[30m'
-  CRED    = '\33[31m'
-  CGREEN  = '\33[32m'
-  CYELLOW = '\33[33m'
-  CBLUE   = '\33[34m'
-  CVIOLET = '\33[35m'
-  CBEIGE  = '\33[36m'
-  CWHITE  = '\33[37m'
-
-  STEEL_TYPE    = '\33[90m'
-  FIRE_TYPE   = '\33[91m'
-  GRASS_TYPE  = '\33[92m'
-  ELECTRIC_TYPE = '\33[93m'
-  WATER_TYPE  = '\33[94m'
-  PSYCHIC_AND_POISON_TYPE = '\33[95m'
-  CBEIGE2  = '\33[96m'
-  NORMAL_AND_AIR_TYPE  = '\33[97m'
-  ROCK_TYPE = '\033[033m'
-  LIGHT_TYPE = ''
-
-  CGREYBG    = '\33[100m'
-  CREDBG2    = '\33[101m'
-  CGREENBG2  = '\33[102m'
-  CYELLOWBG2 = '\33[103m'
-  CBLUEBG2   = '\33[104m'
-  CVIOLETBG2 = '\33[105m'
-  CBEIGEBG2  = '\33[106m'
-  CWHITEBG2  = '\33[107m'
 
 
 def the_end():
@@ -64,12 +27,6 @@ def the_end():
   delay_print("\n.               .     .   .     .          .")
   delay_print("\n.               .      .  .     .          .")
   delay_print("\n...........     .       . .     ...........")
-  delay_print(f"{bcolors.FIRE_TYPE}\nThese are the people who helped with the code.\nCredits:\n")
-  time.wait(10)
-  delay_print(f"{bcolors.WATER_TYPE}Peyton Yang - peytony071@gmail.com")
-  delay_print(f"{bcolors.GRASS_TYPE}Cameron Jiang - 22camerjian@gmail.com")
-  delay_print(f"{bcolors.ELECTRIC_TYPE}")
-  delay_print(f"{bcolors.WATER_TYPE}")
 
 class Person:
   def __init__(self, name, berries, money):
@@ -86,229 +43,18 @@ player_deck = []
 deck_name = []
 
 
-###################################################
-
-
-skip = input(f"{bcolors.ROCK_TYPE}Do you want to skip the credits? Type y to skip: {bcolors.ENDC}")
-if skip == "MONEY":
-  money = 1000
-  begin_delay_timer = 0
-if skip ==  "y":
-  begin_delay_timer = 0
-  msg_delay = 0
-else:
-  begin_delay_timer = 0.03
-
-def delay_print_begin(s):
-    # print one character at a time
-    #https://stackoverflow.com/questions/9246076/how-to-print-one-character-at-a-time-on-one-line
-    for c in s:
-        sys.stdout.write(c)
-        sys.stdout.flush()
-        time.sleep(begin_delay_timer)
-
+###################################
 
 #welcome
 
 
-delay_print_begin(
-    "\nHi! Welcome to BUBBLE QUEST: LIGHT AND DARK!\nThis is still in beta, so it might be buggy.\nIf you have troubles please email an editor.\n"
-) 
-delay_print_begin(
-    f"{bcolors.OKGREEN}\nCREDITS\nHead Developers:\nCameron Jiang - 22camerjian@gmail.com\nPeyton Yang - peytony071@gmail.com\n\n{bcolors.ENDC}\n"
-)
-delay_print_begin(
-    f"{bcolors.OKGREEN}\nOther Devs:\nRyan Li - liryan376@gmail.com\nKai Hsu - 22kaihsu@gmail.com\nHans Liu - supercellscrub3@gmail.com\n\n{bcolors.ENDC}\n"
-)
-# Lets player choose how long the message delay is
-delay_print_begin(
-    "\nHow many seconds/100 do you want your message delay to be?\n(A message delay is the number of seconds before the engine prints out another letter).\nTHIS CANNOT BE CHANGED UNLESS YOU ARE WILLING TO RESTART THE GAME.\n(It has to be positive.)\n(recommended 2-5):\n"
-)
-msg_done = False
-while msg_done == False:
-  msg_delay = input("What do you want your message delay to be?\n")
-  msg_confirm = msg_delay
-  try:
-    msg_delay = int(msg_delay)/100
-    if(msg_delay < 0):
-      msg_delay *= -1
-      delay_print_begin("The negative sign has been removed from your response")
-    confirm = input("Type that again to confirm\n")
-    if(confirm != msg_confirm):
-      print("That is not what you typed before")
-    else:
-      msg_done = True
-  except ValueError or OverflowError:
-    print("That is not an option\n")
-
-def delay_print(s):
-    # print one character at a time
-    #https://stackoverflow.com/questions/9246076/how-to-print-one-character-at-a-time-on-one-line
-    for c in s:
-        sys.stdout.write(c)
-        sys.stdout.flush()
-        time.sleep(msg_delay)
-
 delay_print(f"{bcolors.NORMAL_AND_AIR_TYPE}What is your name?\n")
 name = input("")
+time.sleep(1)
+system('clear')
 
 player = Person(name, 0, 0)
 
-def change_deck():
-    done_changing_deck = False
-    done_switching_out = False
-    done_replacing = False
-    while done_changing_deck == False:
-      while done_switching_out == False:
-        for i in range(len(player_deck)):
-          print(i+1,deck_name[i])
-        switch_out = input("Which one do you want to switch out?\n")
-        try:
-          switch_out = int(switch_out)
-          if switch_out > len(player_deck):
-            print("That is not a valid option")
-          elif switch_out <= 0:
-            print("That is not a valid option")
-          else:
-            done_switching_out = 1
-            switch_out -= 1
-        except ValueError:
-          print("That is not a valid responce.")
-      switched_out_bubble = player_deck[switch_out]
-      while done_replacing==False:
-        for i in range(len(player_bubbles)):
-          print(i+1,bubble_names[i])
-        replace_with = input("Which one do you want to replace it with?\n")
-        try:
-          replace_with = int(replace_with)
-          if replace_with > len(player_bubbles):
-            print("That is not a valid option")
-          elif replace_with <= 0:
-            print("That is not a valid option")
-          else:
-            replace_with -= 1
-            done_replacing = 1
-        except ValueError:
-          print("That is not a valid responce")
-      player_deck.remove(player_deck[switch_out])
-      player_deck.append(player_bubbles[replace_with])
-      deck_name.remove(deck_name[switch_out])
-      deck_name.append(bubble_names[replace_with])
-      player_bubbles.remove(player_bubbles[replace_with])
-      player_bubbles.append(switched_out_bubble)
-      bubble_names.remove(bubble_names[replace_with])
-      bubble_names.append(switched_out_bubble.name)
-      change_again = input("Do you want to repeat this process?\n(y/n)\n")
-      if change_again != "y":
-        done_changing_deck = 1
-      else:
-        done_changing_deck = False
-        done_switching_out = False
-        done_replacing = False
-    else:
-      print("You do not have any bubbles to switch out")
-
-def shop(item_amount,luck):
-  #
-  #item amount is the max quantity of an item they have, so the player can't spam berries or something.
-  #luck is not how lucky in this function, the higher the luck, the more dramatic the prices will be from the standard/accurate price, both in a good way or in a bad way.
-  evolution_stone_price = 5000
-  strength_potion_price = 1000
-  health_potion_price = 1000
-  revive_price = 1000
-  evolution_stone_price += random.randint((luck*-20),(luck*50))
-  strength_potion_price += random.randint((luck*-20),(luck*50))
-  health_potion_price += random.randint((luck*-20),(luck*50)
-  )
-  revive_price += random.randint((luck*-20),(luck*50)
-  )
-  buy = True
-  while buy == True:
-    delay_print(f"{bcolors.OKGREEN}\nYou have {len(money)}$, what would you like to buy?\n")
-    delay_print(f"{bcolors.DEFAULT}1.) Evolution Stone: ${evolution_stone_price}\n2.) Strength Potion: ${strength_potion_price}\n3.) Health Potion: ${health_potion_price}\n4.) Revive: ${revive_price}\n")
-    delay_print("Which one do you want?(press n to leave the shop)\n")
-    shop_item = input('')
-    if shop_item == '2':
-      buy = None
-      if len(money) < strength_potion_price:
-        delay_print("Sorry, you don't have enough money.\n")
-        delay_print("Do you want to buy something from the shop?\nPress y for yes.\n")
-        buy_or_not = input("")
-        if buy_or_not == "y":
-          buy_or_not = ""
-          buy = True
-        else:
-          buy_or_not = ""
-          buy = False
-      else:
-        strength_potion.append(1)
-        delay_print("Do you want to buy something else?\nPress y for yes\n")
-        buy_again = input("")
-        if buy_again == "y":
-          buy_again = ""
-          buy = True
-        else:
-          buy_again = ""
-          buy = False
-
-    elif shop_item == '3':
-      buy == None
-      if len(money) < health_potion_price:
-        delay_print("Sorry, you don't have enough money.\n")
-        shop_item == ""
-        delay_print("Do you want to buy something from the shop?\nPress y for yes.\n")
-        buy_or_not = input("")
-        if buy_or_not == "y":
-          buy_or_not = ""
-          buy = True
-        else:
-          buy_or_not = ""
-          buy = False
-      else:
-        health_potion.append(1)
-        delay_print("Do you want to buy something else?\nPress y for yes\n")
-        buy_again = input("")
-        shop_item = ""
-        if buy_again == "y":
-          buy_again = ""
-          buy = True
-        else:
-          buy_again = ""
-          buy = False
-    elif shop_item == '4':
-      if len(money) < revive_price:
-        delay_print("Sorry, you don't have enough money.\n")
-        shop_item == ""
-        delay_print("Do you want to buy something from the shop?\nPress y for yes.\n")
-        buy_or_not = input("")
-        if buy_or_not == "y":
-          buy_or_not = ""
-          buy = True
-        else:
-          buy_or_not = ""
-          buy = False
-      else:
-        revive.append(1)
-        delay_print("Do you want to buy something else?\nPress y for yes\n")
-        buy_again = input("")
-        shop_item == ""
-        if buy_again == "y":
-          buy_again = ""
-          buy = True
-        else:
-          buy_again = ""
-          buy = False
-    elif shop_item == "":
-      buy = False
-    elif buy_again == "":
-      buy = False
-    else:
-      delay_print("Please try again\n")
-      shop_item = ""
-      buy = True
-  while buy == False:
-    delay_print("\nYou left the shop.")
-    break
 
 class Item:
   def __init__(self, use):
@@ -333,27 +79,15 @@ class Item:
 
 
 class Bubble:
-  def __init__(self, name, energy, move1, move2, move3, move4, move1_damage, move2_damage, move3_damage, move4_damage, move1_energy, move2_energy, move3_energy, move4_energy, move1_type, move2_type, move3_type, move4_type, speed, health, level, XP, bubble_type, max_moves, total_moves, energyc, healthc,evolution,evolution_level):
+  def __init__(self, name, energy, move1, move2, move3, move4, speed, health, level, XP, bubble_type, max_moves, total_moves, energyc, healthc,evolution,evolution_level):
     # save variables as attributes
 
     self.name = name
     self.energy = float(energy)
-    self.move_one = move1
-    self.move_two = move2
-    self.move_three = move3
-    self.move_four = move4
-    self.move_one_energy = float(move1_energy)
-    self.move_two_energy = float(move2_energy)
-    self.move_three_energy = float(move3_energy)
-    self.move_four_energy = float(move4_energy)
-    self.move_one_damage = float(move1_damage)
-    self.move_two_damage = float(move2_damage)
-    self.move_three_damage = float(move3_damage)
-    self.move_four_damage = float(move4_damage)
-    self.move_one_type = move1_type
-    self.move_two_type = move2_type
-    self.move_three_type = move3_type
-    self.move_four_type = move4_type
+    self.move1 = move1
+    self.move2 = move2
+    self.move3 = move3
+    self.move4 = move4
     self.total_moves = float(total_moves)
     self.speed = float(speed)
     self.bars = float(health) # Amount of health bars
@@ -371,27 +105,26 @@ class Bubble:
     except ValueError:
       self.evolution_level = 100
 
-    self.moves = [self.move_one, self.move_two, self.move_three, self.move_four]
+    self.moves = [self.move1.name, self.move2.name, self.move3.name, self.move4.name]
 
-    self.moves_damage = [self.move_one_damage, self.move_two_damage, self.move_three_damage, self.move_four_damage]
+    self.moves_damage = [self.move1.damage, self.move2.damage, self.move3.damage, self.move4.damage]
     
-    self.moves_energy = [self.move_one_energy, self.move_two_energy, self.move_three_energy*-1, self.move_four_energy*-1]
+    self.moves_energy = [self.move1.energy, self.move2.energy, self.move3.energy*-1, self.move4.energy*-1]
 
 
     self.max_moves = float(max_moves)
     self.bubble_type = bubble_type
 
-    if self.move_four == "":
-      self.move_four == "NOT AVAILABLE"
+    if self.move4 == "":
+      self.move4 == "NOT AVAILABLE"
     
-    if self.move_four_damage == "":
-      self.move_four_damage == 0
+    if self.move4.damage == "":
+      self.move4.damage == 0
 
-    if self.move_four_energy == "":
-      self.move_four_energy == 0
+    if self.move4.energy == "":
+      self.move4.energy == 0
 
-    self.stats = f"\n{self.name}:\nType: {self.bubble_type}\nHealth: {self.bars}\nLevel: {self.level}\nSpeed: {self.speed}\n{self.move_one} ({self.move_one_type}): Does {self.move_one_damage} damage + {self.move_one_energy} energy\n{self.move_two} ({self.move_two_type}): Does {self.move_two_damage} + {self.move_two_energy} energy\n{self.move_three} ({self.move_three_type}): Does {self.move_three_damage} damage - {self.move_three_energy} energy\n{self.move_four} ({self.move_four_type}): Does {self.move_four_damage} - {self.move_four_energy}\nThis bubble starts with {self.energy} energy."
-
+    self.stats = f"\n{self.name}:\nType: {self.bubble_type}\n{bcolors.GREEN}Health: {self.bars}\n{bcolors.RED}Level: {self.level}\n{bcolors.YELLOW}Speed: {self.speed}{bcolors.END}\n{self.move1.name} ({move1.move_type}): Does {move1.damage} damage + {move1.energy} energy\n{self.move2.name} ({move2.move_type}): Does {move2.damage} + {move2.energy} energy\n{self.move3.name} ({move3.move_type}): Does {move3.damage} damage - {move3.energy} energy\n{self.move4.name} ({move4.move_type}): Does {move4.damage} - {move4.energy}\nThis bubble starts with {self.energy} energy."
 
   def multiple_fight_v(your_bubbles_amount,opponents_bubbles_amount,kind,opponents_first_bubble,second,third,fourth,fifth):
     list_of_bubbles = []
@@ -426,6 +159,8 @@ class Bubble:
           done = True
       else:
         print("You have errors in your text")
+    time.sleep(1)
+    system('clear')
     bubble_amount = f"{your_bubbles_amount}-{opponents_bubbles_amount}"
     if len(list_of_bubbles) == 2:
       player_deck[list_of_bubbles[0]].multiple_fight(player_deck[list_of_bubbles[1]],None,None,None,opponents_first_bubble,second,third,fourth,fifth,bubble_amount,kind)
@@ -456,13 +191,19 @@ class Bubble:
           fighting_bubble = int(fighting_bubble)
           if fighting_bubble > len(player_deck):
             print("That is not an option")
+            time.sleep(1)
+            system('clear')
           elif fighting_bubble <= 0:
             print("That is not an option")
+            time.sleep(1)
+            system('clear')
           else:
             fighting_bubble -= 1
             done_choosing_fighting_bubble_in_battle_validation_1 = True
         except ValueError:
           print("That is not an option")
+          time.sleep(1)
+          system('clear')
       battle_valid_used.append(fighting_bubble)
       player_deck[fighting_bubble].fight(bubble,"battle",0)
 
@@ -477,8 +218,12 @@ class Bubble:
           fighting_bubble = int(fighting_bubble)
           if fighting_bubble > len(deck_name):
             print("That is too high")
+            time.sleep(1)
+            system('clear')
           elif fighting_bubble <= 0:
             print("That is too small")
+            time.sleep(1)
+            system('clear')
           else:
             fighting_bubble -= 1
             done_choosing_attacking_bubble = True
@@ -504,6 +249,8 @@ class Bubble:
       else:
         while int(fighting_bubble) > int(len(deck_name)):
           delay_print("\nSorry, that is not a valid choice, please try again.\n")
+          time.sleep(1)
+          system('clear')
           delay_print("\nPick a bubble:\n")
           for i in range(len(deck_name)):
             print(i+1,": ",deck_name[i])
@@ -512,6 +259,8 @@ class Bubble:
 
         while not fighting_bubble.isdigit():
           delay_print("Try again ")
+          time.sleep(1)
+          system('clear')
           fighting_bubble = input("")
           while not fighting_bubble.isdigit():
             break
@@ -524,14 +273,17 @@ class Bubble:
         player_deck[fighting_bubble].fight(bubble,"contest",0)
 
 
-  def fight(self, Bubble2, kind, chance): #fight ################
+  def fight(self, Bubble2, kind, chance): #fight
 
-    accurate_level = random.randint(max(1,self.level-Bubble2.level),self.level+5)
-    level_up = accurate_level - Bubble2.level
-    Bubble2.healthc+=level_up
-    for i in range(int(Bubble2.total_moves)):
-      Bubble2.moves_damage[i] += level_up
-    Bubble2.level = accurate_level
+    #update levels and damage to make it a fair fight (unless the wild bubble is a higher level)
+    if (Bubble2.level < self.level):
+      accurate_level = random.randint(max(self.level,1), self.level+1)
+      level_up = accurate_level - Bubble2.level
+      Bubble2.healthc += level_up
+      for i in range(int(Bubble2.total_moves)):
+        if (level_up > 0):
+          Bubble2.moves_damage[i] += level_up
+      Bubble2.level = accurate_level
 
 
     self.bars = self.healthc
@@ -561,27 +313,23 @@ class Bubble:
     # Print fight information
     print("\n-----BATTLE-----")
     animation = random.randint(1,3)
-    print(f"\n{self.name}:\nType: {self.bubble_type}\n{bcolors.GRASS_TYPE}Health: {self.bars}\n{bcolors.FIRE_TYPE}Level: {self.level}\n{bcolors.ELECTRIC_TYPE}Speed: {self.speed}{bcolors.NORMAL_AND_AIR_TYPE}\n{self.move_one} ({self.move_one_type}): Does {self.move_one_damage} damage + {self.move_one_energy} energy\n{self.move_two} ({self.move_two_type}): Does {self.move_two_damage} + {self.move_two_energy} energy\n{self.move_three} ({self.move_three_type}): Does {self.move_three_damage} damage - {self.move_three_energy} energy\n{self.move_four} ({self.move_four_type}): Does {self.move_four_damage} - {self.move_four_energy}\nThis bubble starts with {self.energy} energy.")
+    print(f"\n{self.name}:\nType: {self.bubble_type}\n{bcolors.GRASS_TYPE}Health: {self.bars}\n{bcolors.FIRE_TYPE}Level: {self.level}\n{bcolors.ELECTRIC_TYPE}Speed: {self.speed}{bcolors.NORMAL_AND_AIR_TYPE}\n{self.move1.name} ({self.move1.move_type}): Does {self.move1.damage} damage + {self.move1.energy} energy\n{self.move2.name} ({self.move2.move_type}): Does {self.move2.damage} + {self.move2.energy} energy\n{self.move3.name} ({self.move3.move_type}): Does {self.move3.damage} damage - {self.move3.energy} energy\n{self.move4.name} ({self.move4.move_type}): Does {self.move4.damage} - {self.move4.energy} energy\nThis bubble starts with {self.energy} energy.")
     if (animation == 1):
-      delay_print("\            /     —————————— \n")
-      delay_print(" \          /     |           \n")
-      delay_print("  \        /      |           \n")
-      delay_print("   \      /        —————————— \n")
-      delay_print("    \    /                   |\n")
-      delay_print("     \  /                    |\n")
-      delay_print("      \/     <>    —————————— \n")
+      delay_print("____   ____ _________\n")
+      delay_print("\   \ /   //   _____/\n")
+      delay_print(" \   Y   / \_____  \  \n")
+      delay_print("  \     /  /        \ \n")
+      delay_print("   \___/  /_______  /\n")
+      delay_print("                  \/  \n")
     elif (animation == 2):
-      delay_print("|||            |||     |||||||||||||||\n")
-      delay_print(" |||          |||      |||            \n")
-      delay_print("  |||        |||       |||            \n")
-      delay_print("   |||      |||        |||||||||||||||\n")
-      delay_print("    |||    |||                     |||\n")
-      delay_print("     |||  |||                      |||\n")
-      delay_print("      ||||||   <<>>    |||||||||||||||\n")
+      delay_print("\ / __\n")
+      delay_print(" V (_ \n")
+      delay_print("   __)\n")
     elif(animation == 3):
       delay_print("–––––––––––V.S–––––––––––")
-    print(f"\n{Bubble2.name}:\nType: {Bubble2.bubble_type}\n{bcolors.GRASS_TYPE}Health: {Bubble2.bars}\n{bcolors.FIRE_TYPE}Level: {Bubble2.level}{bcolors.ELECTRIC_TYPE}\nSpeed: {Bubble2.speed}{bcolors.NORMAL_AND_AIR_TYPE}\n{Bubble2.move_one} ({Bubble2.move_one_type}): Does {Bubble2.move_one_damage} damage + {Bubble2.move_one_energy} energy\n{Bubble2.move_two} ({Bubble2.move_two_type}): Does {Bubble2.move_two_damage} + {Bubble2.move_two_energy} energy\n{Bubble2.move_three} ({Bubble2.move_three_type}): Does {Bubble2.move_three_damage} damage - {Bubble2.move_three_energy} energy\n{Bubble2.move_four} ({Bubble2.move_four_type}): Does {Bubble2.move_four_damage} - {Bubble2.move_four_energy}\nThis bubble starts with {Bubble2.energy} energy.")
+    print(f"\n{Bubble2.name}:\nType: {Bubble2.bubble_type}\n{bcolors.GRASS_TYPE}Health: {Bubble2.bars}\n{bcolors.FIRE_TYPE}Level: {Bubble2.level}{bcolors.ELECTRIC_TYPE}\nSpeed: {Bubble2.speed}{bcolors.NORMAL_AND_AIR_TYPE}\n{Bubble2.move1.name} ({Bubble2.move1.move_type}): Does {Bubble2.move1.damage} damage + {Bubble2.move1.damage} energy\n{Bubble2.move2.name} ({Bubble2.move2.move_type}): Does {Bubble2.move2.damage} + {Bubble2.move2.energy} energy\n{Bubble2.move3.name} ({Bubble2.move3.move_type}): Does {Bubble2.move3.damage} damage - {Bubble2.move3.energy} energy\n{Bubble2.move4.name} ({Bubble2.move4.move_type}): Does {Bubble2.move4.damage} - {Bubble2.move4.energy} energy\nThis bubble starts with {Bubble2.energy} energy.")
     time.sleep(2)
+    system('clear')
 
     # Print the health and name of each Bubble
     print(f"{self.name}\t\tHP\t{self.bars}")
@@ -591,33 +339,36 @@ class Bubble:
 
     if(self.speed>Bubble2.speed):
       delay_print("Your bubble is faster, so it goes first!\n")
-      turn=0 #turn 0 is your turn
+      turn = 0 #turn 0 is your turn
       
     if(self.speed<Bubble2.speed):
       delay_print(f"{Bubble2.name} is faster, so it goes first!\n")
-      turn=1 #this means it is the computer's turn
+      turn = 1 #this means it is the computer's turn
       
     if(self.speed == Bubble2.speed):
       delay_print("The speeds are the same, so the first attacker is declared randomly, please wait \n\n")
       turn=random.randint(0,1) #returns a random number in the range of 1 and 2
+
+    time.sleep(1)
+    system('clear')
       
 
 
     # Now for the actual fighting...
     # Continue when each Bubble still has health
     while (self_health[0] > 0) and (oppo_health[0] > 0):
-      indent = ' '*max(0,len(self.name)-len(Bubble2.name)) #these two indents are here to even out the spaces between the two names and the health
-      indent2 = ' '*max(0,len(Bubble2.name)-len(self.name)+4)
       while turn == 0: #your turn
         if(oppo_energy[0] < 0):
-          oppo_health[0] -= 5
-          delay_print(f"{Bubble2.name} used up all its energy and lost 5 health!\n")
+          oppo_health[0] -= 250
+          delay_print(f"{Bubble2.name} used up all its energy and lost 25 health!\n")
+          time.sleep(1)
+          system('clear')
         delay_print("It is your turn!\n\n")
-        delay_print(f"{Bubble2.name}: {indent}{oppo_health[0]} Health\n\nYour {self.name}: {indent2}{self_health[0]} Health\n\n")
+        delay_print(f"{bcolors.GREEN}{Bubble2.name}: {oppo_health[0]} Health\n\nYour {self.name}: {self_health[0]} Health{bcolors.END} ({self_energy[0]} energy)\n\n")
         delay_print("Please Choose Your Move:\n\n")
         self.total_moves = int(self.total_moves)
         for i in range(self.total_moves):
-          print(f"{i+1}: {self.moves[i]}.    (Gives {self.moves_energy[i]} energy. Does {self.moves_damage[i]} damage)\n")
+          print(f"{i+1}: {self.moves[i]}.    {bcolors.YELLOW}(Gives {self.moves_energy[i]} energy{bcolors.END}. Does {bcolors.RED}{self.moves_damage[i]} damage){bcolors.END}\n")
         done_attacking = False
         while done_attacking == False:
           attack=input("(Type the number)\n" )
@@ -625,8 +376,12 @@ class Bubble:
             attack = int(attack)
             if float(attack) > float(self.total_moves):
               delay_print("\nThat is not a valid choice, please try again.\n")
+              time.sleep(1)
+              system('clear')
             else:
               done_attacking = True
+              time.sleep(1)
+              system('clear')
           except ValueError:
             abcdefg = 0
             for i in range(self.total_moves):
@@ -637,27 +392,34 @@ class Bubble:
             attack = abcdefg
             if done_attacking == False:
               print("That is not an option")
+              time.sleep(3)
+              system('clear')
 
         
         attack = int(attack)-1 #subtracts one because all lists start from 0
         oppo_health[0]-=self.moves_damage[attack]
         self_energy[0]+=self.moves_energy[attack] #this will subtract the energy from the third and forth move because the third and forth move from the list is multiplied by -1
         delay_print(f"{self.name} used {self.moves[attack]} and did {self.moves_damage[attack]} damage!\n{self.name} has {self_energy[0]} energy left.\n")
+        time.sleep(1)
+        system('clear')
         if(oppo_health[0]>0):
           turn=1 
           break
         else:
           break
+          break
       while turn == 1 and Bubble2.bars>0: #computer's turn
         if(self_energy[0] < 0):
-          self_health[0] -= 5
-          delay_print(f"{self.name} used up all of its energy and lost 5 health!\n")
+          self_health[0] -= 250
+          delay_print(f"{self.name} used up all of its energy and {bcolors.RED}lost 25 health!{bcolors.END}\n")
         if oppo_health[0] <= 0:
           break
         move=random.randint(0,Bubble2.total_moves - 1)
         oppo_energy[0]+=Bubble2.moves_energy[move]
         self_health[0]-=Bubble2.moves_damage[move]
         delay_print(f"{Bubble2.name} used {Bubble2.moves[move]} and did {Bubble2.moves_damage[move]} damage!\n{Bubble2.name} has {oppo_energy[0]} energy left!\n")
+        time.sleep(1)
+        system('clear')
         turn=0
         break
     if(self_health[0]<=0 or oppo_health[0]<=0):
@@ -672,6 +434,8 @@ class Bubble:
             if len(money) == 0:
               money.clear()
           delay_print(f"You paid the opponent ${amount_of_money}.\n")
+          time.sleep(1)
+          system('clear')
         self.XP + 10
         if self.XP >= self.XP_MAX:
           self.XP - self.XP_MAX
@@ -690,7 +454,9 @@ class Bubble:
               
             while self.level_MAX == True:
               self.XP = 0
-        print(f"Good job! {self.name} needs {self.XP_MAX - self.XP} more XP to reach level {self.level+1}!")
+        print(f"Good job! {self.name} needs {bcolors.BLUE}{self.XP_MAX - self.XP} more XP{bcolors.END} to reach level {bcolors.BOLD}{self.level+1}{bcolors.END}!")
+        time.sleep(5)
+        system('clear')
       else:
         if(kind=="battle"):
           delay_print("You Won!\n\n")
@@ -699,6 +465,7 @@ class Bubble:
           for i in range(amount_of_money):
             money.append(1)
           delay_print(f"The opponent paid you ${amount_of_money}!\n")
+          system('clear')
           self.XP += 20
           if random.randint(1,2) == 1:
             shop(random.randint(10,15), random.randint(10,15))
@@ -708,38 +475,40 @@ class Bubble:
             self.XP_MAX *= 1.1
             self.level += 1
             self.healthc += 1
-            self.move_one_damage += 1
-            self.move_two_damage += 1
+            self.move1.damage += 1
+            self.move2.damage += 1
             if self.total_moves == 3: #in case you have like fake or something
-              self.move_three_damage += 1
+              self.move3.damage += 1
             if self.total_moves == 4:
-              self.move_four_damage += 1
-              self.move_three_damage += 1
-            delay_print(f"\n{self.name} has leveled up!\nNow it is on level {self.level}!\n")
+              self.move4.damage += 1
+              self.move3.damage += 1
+            delay_print(f"{self.name} has leveled up!\nNow it is on level {self.level}!\n")
 
             self.level_MAX = False
 
             if self.level == 100:
               self.level_MAX = True
                 
-              delay_print(f"\n\n{self.name} is at level 100.\nIt cannot level up anymore because 100 is the maximum level that a bubble can attain.\n")
+              delay_print(f"{self.name} is at level 100.\nIt cannot level up anymore because 100 is the maximum level that a bubble can attain.\n")
                 
               while self.level_MAX == True:
                 self.XP = 0
 
             if self.level >= self.evolution_level:
-              delay_print(f"WOW! {self.name} is evolving to {self.evolution.name} because it reached level {self.evolution_level}\n")
+              delay_print(f"WOW! {self.name} {bcolors.UNDERLINE}is evolving to {self.evolution.name}{bcolors.END} because it reached level {self.evolution_level}\n")
               delay_print(f"{self.evolution.stats}\n")
               player_deck.append(self.evolution)
               deck_name.append(self.evolution.name)
               player_deck.remove(self)
               deck_name.remove(self.name)
             else:
-              delay_print(f"\nGood job! {self.name} needs {self.XP_MAX - self.XP} more XP to reach level {self.level+1}!")
+              print(f"Good job! {self.name} needs {bcolors.BLUE}{self.XP_MAX - self.XP} more XP{bcolors.END} to reach level {bcolors.BOLD}{self.level+1}{bcolors.END}!")
+          time.sleep(1)
+          system('clear')
         if(kind=="capture"):
           attempts = 0
-          delay_print(f"You won, do you want to capture the bubble, the chances are 1 in {chance}.\nPress y to capture\n")
-          print(f"You have {len(capture_disc_count)} capture discs")
+          delay_print(f"You won, do you want to capture the bubble, the chances are {bcolors.BOLD}1 in {chance}{bcolors.END}.\nPress y to capture\n")
+          print(f"You have {bcolors.OKGREEN}{len(capture_disc_count)}{bcolors.END} capture discs")
           capture=input("")
           done_catching = False
           berry_done = False
@@ -752,6 +521,8 @@ class Bubble:
                   berry_amount = int(berry_amount)
                   if berry_amount > len(berries):
                     print("You do not have this many...")
+                    time.sleep(3)
+                    system('clear')
                   elif berry_amount < 0:
                     print("Sorry, you must enter a number 0 or greater")
                   else:
@@ -771,12 +542,14 @@ class Bubble:
                 player_bubbles.append(Bubble2)
                 bubble_names.append(Bubble2.name)
                 print("You caught the bubble!")
+                time.sleep(1)
+                system('clear')
 
                 if len(player_bubbles) > 5:
-                  delay_print(f"\nYou do not have enough space in your party to add {Bubble2.name} to your party.\n")
+                  delay_print(f"You do not have enough space in your party to add {Bubble2.name} to your party.\n")
                   change_deck()
                 else:
-                  delay_print(f"\nYou added {Bubble2.name} to your party!\n")
+                  delay_print(f"You added {Bubble2.name} to your party!\n")
                   player_deck.append(Bubble2)
                   deck_name.append(Bubble2.name)
                 done_catching = True
@@ -787,26 +560,30 @@ class Bubble:
                   if catch_again == "y":
                     attempts += 1
                     if attempts > 5:
-                      print("The bubble ran away!\n")
+                      delay_print(f"{bcolors.RED}The bubble ran away!{bcolors.END}\n")
+                      time.sleep(1)
+                      system('clear')
                       done_catching = True
                   if catch_again != "y":
                     done_catching = True
             if len(capture_disc_count) <= 0:
-              delay_print("You do not have any more capture discs.\n")
+              delay_print(f"{bcolors.RED}You do not have any more capture discs.{bcolors.END}\n")
+              time.sleep(1)
+              system('clear')
               done_catching = True
 
         if (kind.lower() == "contest"):
           if self.bars <= 0:
             lost_contest_1.append(0)
       if(self_health[0] > oppo_health[0]):
-        delay_print(f"\n{self.name} is happy that it won!\n\n")
+        delay_print(f"{self.name} is happy that it won!\n\n")
         delay_print(f"{bcolors.OKGREEN}\nYou have {len(money)} dollars, what would you like to buy?")
-        actions = input(f"{bcolors.DEFAULLT}\n1: Change Name (current: {self.name} Cost: $100)\n\n2: Upgrade base energy (Cost: $1500 = +2 base energy)\n3: Upgrade base health (Cost $1500 = +2 base health)\n(Warning: Base Energy and Base Health will reset once a bubble evolves)\n\n4: Level up Bubble (Cost: ${(self.XP_MAX-self.XP)*30})\n(Type the number of the action you want to make)\n")
+        actions = input(f"{bcolors.DEFAULT}\n1: Change Name (current: {self.name} Cost: $100)\n\n2: Upgrade base energy (Cost: $1500 = +10 base energy)\n3: Upgrade base health (Cost $1500 = +40 base health)\n(Warning: Base Energy and Base Health will reset once a bubble evolves)\n\n4: Level up Bubble (Cost: ${(self.XP_MAX-self.XP)*30})\n(Type the number of the action you want to make)\n")
         if actions == "1":
           if len(money) >= 100:
             for i in range(100):
               money.remove(money[0])
-            name = input("What should the new name of your bubble be?\n")
+            name = input(f"What should the {bcolors.BOLD}new name{bcolors.END} of your bubble be?\n")
             self.name = name
             deck_name.remove(deck_name[battle_valid_used[0]])
             deck_name.insert(battle_valid_used[0],name)
@@ -816,7 +593,7 @@ class Bubble:
           if len(money) >= 1500:
             for i in range(1500):
               money.remove(money[0])
-            self.energyc += 2
+            self.energyc += 10
             print(f"Your bubble's base energy rose to {self.energyc}\n")
           else:
             print(f"Sorry, you only have ${len(money)}\n")
@@ -824,7 +601,7 @@ class Bubble:
           if len(money) >= 1500:
             for i in range(1500):
               money.remove(money[0])
-            self.healthc += 2
+            self.healthc += 40
             print(f"Your bubble's health capacity is now {self.healthc}!\n")
           else:
             print(f"Sorry, you only have ${len(money)}\n")
@@ -1318,6 +1095,8 @@ class Bubble:
       for i in range(len(oppo_bubbles)):
         print(oppo_bubbles[i])
 
+    time.sleep(1)
+    system('clear')
 
     turn = "0"
     input("\nWhen you battle multiple bubbles, the first attacker is decided by a coin flip.\nHeads or tails?\n")
@@ -1330,6 +1109,8 @@ class Bubble:
       delay_print("You won!")
     else:
       delay_print("You lost...")
+    time.sleep(1)
+    system('clear')
     turn = coin_result
     while len(self_bubbles_health)>0 and len(oppo_bubbles_health) >0:
       while turn == 1:
@@ -1492,7 +1273,7 @@ class Bubble:
         for i in range(len(self_bubbles_health)):
           if self_bubbles_health[i] <= 0:
             print(self_bubbles[i] , "has fainted!") 
-            lost_bubble.append(eval(self_bubbles[i].lower()).health)
+            lost_bubble.append(eval(self_bubbles[i].lower()).healthc)
             print(lost_bubble)
             self_bubbles.remove(self_bubbles[i])
             self_bubbles_energy.remove(self_bubbles_energy[i])

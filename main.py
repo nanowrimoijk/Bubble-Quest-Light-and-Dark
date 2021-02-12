@@ -21,7 +21,7 @@ Bubble Attack Effects:
 4. Heals your bubble but uses your energy
 5. Does x times the amount of damage your opponent did to you on his last turn.
 6. Subtracts energy from opponent
-7. Subtracts health from both bubbles until you bubble reaches 10 health
+7. Subtracts health from both bubbles until your bubble reaches 10 health
 8. Subtracts health from both bubbles until one faints.
 9. Switches bubble with another while doing a little damage.
 10. Draining health from other bubble.
@@ -33,12 +33,19 @@ Bugs:
   Multi Battle (Revive):
     trouble adding variable (not variable name) into the list of knocked out bubbles because the name isn't defined in Bubble.py, only main.
     Other leaks are likely but can't be found until bug above gets patched.
-  Merchant:
-    Forces you to buy stuff.
+
+	Battles in general: 
+		when upgrading the stats of your own bubbles, it keeps those boosts when fighting that same bubble.
+		example: upgraded the health of your "fake" to 41, next time you fight a "fake" it also has 41 health
+
   Typos:
     You agreed to bet 160
     change to:
       You agreed to bet [$]160 [for the battle]
+
+		you get 10,000$
+		change to:
+			$10,000
 '''
 #
 #
@@ -60,32 +67,24 @@ Steel
 Air
 
 '''
-from bubble import lost_contest_1
-from bubble import capture_disc_count
-from bubble import berries
-from bubble import opponent_name
-from bubble import bubble_names
-from bubble import player_bubbles
-from bubble import delay_print
-from bubble import bcolors
-from bubble import Bubble
-from bubble import Person
-from bubble import player
-from bubble import player_deck
-from bubble import deck_name
-from bubble import change_deck
-from bubble import lost_grunt_1
-from bubble import shop
-from bubble import money
-from bubble import health_potion
-from bubble import strength_potion
-from bubble import revive
+from bubble import *
+from bubblesNmoves import *
 import time
 import sys
 import random
+from move import Move
+from os import system
+
+#saving progress
+
+#import save function here
+
+
 #other stuff
 confirm = ""
 begin_delay_timer = 0.04
+
+
 
 
 def float_txt(txt):
@@ -129,17 +128,17 @@ answer = []
 player_money = 0
 #places
 places = {
-    'Professors lab': '(Starting)',
-    'Ocean': '(Water types)',
-    'Volcano': '(Fire types)',
-    'Clouds': '(Electric types)',
-    'Forest': '(Grass types)',
-    'Mountains': '(Rock and Grass types)',
-    'Swamps': '(Poison and Grass types)',
-    'Town': '(Normal and Steel types)',
-    'Castle': '(Pyschic and Dark types)',
-    'Arena': '(Steel types and Battles)',
-    'Shop': '(Where you buy stuff)'
+  'Professors lab': '(Starting)',
+  'Ocean': '(Water types)',
+  'Volcano': '(Fire types)',
+  'Clouds': '(Electric types)',
+  'Forest': '(Grass types)',
+  'Mountains': '(Rock and Grass types)',
+  'Swamps': '(Poison and Grass types)',
+  'Town': '(Normal and Steel types)',
+  'Castle': '(Pyschic and Dark types)',
+  'Arena': '(Steel types and Battles)',
+  'Shop': '(Where you buy stuff)'
 }
 
 
@@ -159,102 +158,11 @@ def ask(question,return1,return2):
       else:
         print("That is not a valid answer")
     elif no_name == return1:
-      answer.append(return1)
+      return return1
       done_answering = True
     elif no_name == return2:
-      answer.append(return2)
+      return return2
       done_answering = True
-
-
-
-#Bubbles:
-
-#Create a Bubble
-
-#Format Example: bubble = Bubble('Name', 'Bubble Energy', 'First Move Name', 'Second Move Name', 'Third Move Name', 'Fourth Move Name', 'First Move Damage', 'Second Move Damage', 'Third Move Damage', 'Fourth Move Damage', 'First Move Energy', 'Second Move Energy', 'Third Move Energy', 'Fourth Move Energy', 'Bubble Speed', 'Bubble Health', 'level', 'XP', 'type')
-
-penta_spike = Bubble('Penta-Spike', '9', 'Jab', 'Spike', 'Spike Ring',
-                    'Spike Beam', '8', '16', '20', '28', '3', '2', '2', '7',
-                    'Normal', 'Normal', 'Steel', 'Steel', '7', '88', '20',
-                    '0', 'Normal', '4', '4', '9', '88','None_Yet', 'Unkown_For_Now')
-
-jab = Bubble('Jab', '7', 'Cut', 'Jab', 'X-Cannon', 'NOT AVAILABLE', '12', '16',
-            '24', '0', '4', '1', '5', '0', 'Normal', 'Normal', 'Normal',
-            'NO TYPE', '3', '64', '1', '0', 'Normal', '3', '3', '7', '64', penta_spike, '20')
-
-slasher = Bubble('Slasher', '11', 'Spin', 'Rollout', 'X-Slash', 'Slash Charge',
-                '12', '16', '20', '32', '3', '0', '4', '5', 'Normal', 'Normal',
-                'Steel', 'Normal', '13', '76', '20', '0', 'Normal', '4', '4', '11', '76','None_Yet', 'Unkown_For_Now')
-
-spin = Bubble('Spin', '8', 'Slash', 'Spin', 'Rollout', 'NOT  AVAILABLE', '8',
-              '12', '28', '0', '2', '1', '4', '0', 'Normal', 'Normal', 'Normal',
-              'NO TYPE', '7', '52', '1', '0', 'Normal', '3', '3', '8', '52', slasher, '20')
-
-screen = Bubble('Screen', '8', 'Block', 'Lawnmow', 'Spike Screen', 'Screen Ram','8',
-              '16', '12', '28', '3', '0', '-3', '6', 'Normal', 'Normal', 'Normal',
-              'Normal', '5', '96', '20', '0', 'Normal', '4', '4', '8', '96','None_Yet', 'Unkown_For_Now')
-
-mow = Bubble('Mow', '6', 'Mow', 'Plow', 'Lawnmow', 'NOT AVAILABLE', '8', '12',
-            '24', '0', '5', '1', '5', '0', 'Normal', 'Normal', 'Normal',
-            'NO TYPE', '1', '68', '1', '0', 'Normal', '3', '3', '6', '68', screen, '20') 
-
-fake = Bubble('Fake', '0', 'Bump', 'Crash', 'NOT AVAILABLE', 'NOT AVAILABLE',
-              '1', '2', '0', '0', '0', '0', '0', '0', 'Normal', 'Normal',
-              'NO TYPE', 'NO TYPE', '0', '1', '1', '0', 'Normal', '2', '2', '0', '1',None, None)
-
-rip = Bubble('Rip', '7', 'Tear', 'Rip', 'Shred', 'NOT AVAILABLE', '8', '12',
-            '20', '0', '2', '1', '4', '0', 'Normal', 'Fighting', 'Fighting',
-            'NO TYPE', '5', '56', '1', '0', 'Fighting', '4', '3', '7', '56','None_Yet', 'Unkown_For_Now')
-
-shield = Bubble('Shield', '5', 'Ram', 'Crash', 'Shield', 'Deflection Shield',
-                '4', '8', '12', '24', '3', '2', '3', '5', 'Normal', 'Normal',
-                'Steel', 'Steel', '3', '68', '1', '0', 'Steel', '4', '4', '5', '68','None_Yet', 'Unkown_For_Now')
-
-smasher = Bubble('Smasher', '2', 'Uppercut', 'Quake Smash', 'Orbit Smash',
-                'Deady Tornado Smash', '12', '16', '24', '36', '2', '1', '9',
-                '10', 'Fighting', 'Fighting', 'Rock', 'Air', '1', '140', '1',
-                '0', 'Fighting', '4', '4', '2', '140','None_Yet', 'Unkown_For_Now')
-
-rager = Bubble('Rager', '3', 'Mad', 'Rage', 'Trigger', 'NOT AVAILABLE', '8',
-              '12', '24', '0', '2', '0', '7', '0', 'Fighting', 'Fighting',
-              'Fighting', 'NO TYPE', '5', '64', '1', '0', 'Fighting', '3', '3', '3', '64', smasher, '30')
-
-twin = Bubble('Twin', '7', 'Fire Blast', 'Water Cannon', 'Fusion Beam',
-              'NOT AVAILABLE', '16', '16', '28', '0', '2', '2', '7', '0', 'Fire',
-              'Water', 'Psychic', 'NO TYPE', '7', '68', '1', '0', 'Psychic',
-              '3', '3', '7', '68','None_Yet', 'Unkown_For_Now')
-
-miner = Bubble('Miner', '5', 'Pebble Rain', 'Earthquake', 'Rock Toss',
-              'NOT AVAILABLE', '12', '16', '24', '0', '3', '1', '5', '0', 'Rock',
-              'Rock', 'Rock', 'NO TYPE', '5', '56', '1', '0', 'Rock', '3', '3', '5', '56','None_Yet', 'Unkown_For_Now')
-
-cannonball = Bubble('Cannonball', '4', 'Swipe', 'Rollout Shield', 'Ram',
-                    'Firey Smash', '4', '16', '20', '24', '3', '0', '4', '5',
-                    'Normal', 'Steel', 'Normal', 'Fire', '5', '68', '1', '0',
-                    'Steel', '4', '4', '4', '68','None_Yet', 'Unkown_For_Now')
-
-antser = Bubble('Antser', '5', 'Bite', 'Crash', 'Slice', 'NOT ABAILABLE', '8',
-                '12', '16', '0', '3', '2', '2', '0', 'Dark', 'Normal', 'Dark',
-                'NO TYPE', '3', '64', '1', '0', 'Rock', '3', '3', '5', '64','None_Yet', 'Unkown_For_Now')
-
-tank = Bubble('Tank', '12', 'Ram', 'Blast', 'Laser', 'Bullet Wave', '16', '24',
-              '44', '56', '3', '1', '9', '11', 'Normal', 'Steel', 'Electric',
-              'Steel', '11', '128', '65', '0', 'Steel', '4', '4', '12', '128','None_Yet', 'Unkown_For_Now')
-
-laser = Bubble('Laser', '10', 'Shoot', 'Rapid Fire', 'Laser Beam',
-              'Tracking Laser', '12', '16', '28', '36', '3', '1', '5', '8',
-              'Steel', 'Steel', 'Electric', 'Electric', '7', '92', '30', '0',
-              'Steel', '4', '4', '10', '92',tank,'65')
-
-gunner = Bubble('Gunner', '6', 'Shoot', 'Blast', 'Bulletstorm',
-                'NOT AVAILABLE', '8', '12', '20', '0', '3', '1', '3', '0',
-                'Steel', 'Steel', 'Steel', 'NO TYPE', '3', '56', '1', '0',
-                'Steel', '3', '3', '10', '56',laser,'30')
-
-
-
-#Make the bubble above this comment
-#Format Example: bubble = Bubble('Name', 'Bubble Energy', 'First Move Name', 'Second Move Name', 'Third Move Name', 'Fourth Move Name', 'First Move Damage', 'Second Move Damage', 'Third Move Damage', 'Fourth Move Damage', 'First Move Energy', 'Second Move Energy', 'Third Move Energy', 'Fourth Move Energy', 'First Move Type', 'Second Move Type', 'Third Move Type', 'Fourth Move Type', 'Bubble Speed', 'Bubble Health', 'level', 'XP', 'type','amount of moves', 'total moves', 'base energy', 'base health', Evolves to, 'Evolution level') 
 
 
 '''
@@ -282,7 +190,7 @@ BUBBLE_DEX = {
 #search:
 
 search_names = [
-    "Jab", "Penta-Spike", "Spin", "Slasher", "Mow", "Wall", "Fake", "Rip",
+    "Jab", "Penta-Spike", "Spin", "Slasher", "Mow", "Screen", "Fake", "Rip",
     "Shield", "Twin", "Miner", "Rager", "Smasher", "Cannonball", "Antser",
     "Gunner", "Laser", "Tank"
 ]
@@ -301,14 +209,36 @@ search_results = [
 #search_results=sorted(search_results)
 
 def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, bubble6, bubble7, bubble8, bubble9, bubble10):
-  #[mccabe] Cyclomatic complexity too high: 54 (threshold 15)
   accept_challenge = random.randint(1,4)
   trainer2_request = False
   try:
-    bubbles = int(bubbles)
+  	bubbles = int(bubbles)
 
   except ValueError:
     pass
+
+	# this function can be used in place of lines 433 through 496
+  def random_bubble(bubble):
+	  if(bubble == "f"):
+		  bubble = tierf[random.randint(0,len(tierf)-1)]
+	  if(bubble == "c"):
+		  bubble = tierc[random.randint(0,len(tierc)-1)]
+	  if(bubble == "b"):
+		  bubble = tierb[random.randint(0,len(tierb)-1)]
+	  if(bubble == "a"):
+		  bubble = tiera[random.randint(0,len(tiera)-1)]
+	  if(bubble == "s"):
+		  bubble = tiers[random.randint(0,len(tiers)-1)]
+	  if(bubble == "l"):
+		  bubble = tierl[random.randint(0,len(tierl)-1)]
+	  return bubble
+
+	#random_bubble(bubble1)
+	#random_bubble(bubble2)
+	#random_bubble(bubble3)
+	#random_bubble(bubble4)
+	#random_bubble(bubble5)
+
     
   if(bubble1 == "f"):
     bubble1 = tierf[random.randint(0,len(tierf)-1)]
@@ -375,7 +305,7 @@ def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, b
   if(bubble5 == "l"):
     bubble5 = tierl[random.randint(0,len(tierl)-1)]
 
-  delay_print(f"\n\nYou are challenged by Trainer {name}!\n\n")
+  delay_print(f"You are challenged by Trainer {name}!\n\n")
   opponent_name.clear()
   opponent_name.append(name)
 
@@ -397,15 +327,17 @@ def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, b
     Bubble.battle_validation("f",False,True,bubble1,Person,len(player_deck))
 
   elif bubbles == "x":
-    bubble_amount = input(f"Since this is a contest, you get to choose how many bubbles to battle with\n(max: {len(player_deck)})\n")
+    bubble_amount = input(f"Since this is a contest, you get to choose how many bubbles to battle with\n(max: {min(len(player_deck),5)})\n")
     try:
       bubble_amount = int(bubble_amount)
-      if bubble_amount > len(player_deck):
+      if bubble_amount > len(player_deck) or bubble_amount > 5:
         print(f"{bubble_amount} was too high")
         trainer2_request = True
       else:
         if accept_challenge != 1:
           print(f"{opponent_name[0]} accepted!")
+          time.sleep(1)
+          system('clear')
           if bubble_amount == 1:
             Bubble.battle_validation("t",False,"contest",bubble1,Person,player_bubble_amt)
           elif bubble_amount == 2:
@@ -421,16 +353,20 @@ def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, b
           
           
     except ValueError:
-      delay_print(f"When the judge asked you, you didn't say a number but said: {bubble_amount}. Since this was not a number, you lost your opportunity of choice.\n")
+      delay_print(f"When the judge asked you, you didn't say a number but said: '{bubble_amount}'. Since this was not a number, you lost your opportunity of choice.\n")
+      time.sleep(1)
+      system('clear')
       trainer2_request = True
 
     if accept_challenge == 1 or trainer2_request == True:
       random_vs = random.randint(1,len(player_deck))
       while random_vs == bubble_amount:
-        random_vs = random.randint(1,len(player_deck))
+        random_vs = random.randint(1,min(len(player_deck),5))
       print(f"They want a {random_vs} V {random_vs}!")
-      ask("Do you accept?","y","n")
-      if answer[0] == "y":
+      accept_challange_or_not = ask("Do you accept?","y","n")
+      time.sleep(1)
+      system('clear')
+      if accept_challange_or_not == "y":
         if bubble_amount == 1:
             Bubble.battle_validation("t",False,"contest",bubble1,Person,player_bubble_amt)
         elif random_vs == 2:
@@ -442,7 +378,9 @@ def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, b
         elif random_vs == 5:
           Bubble.multiple_fight_v(5,5,"contest",bubble1,bubble2,bubble3,bubble4,bubble5)
       else:
-        delay_print("\nNo one agreed!\nNow we will be doing a 1 V 1 ! (but there's a twist! A random bubble is chosen from your 5 bubble deck and is used to fight!")
+        delay_print("No one agreed!\nNow we will be doing a 1 V 1 ! (but there's a twist! A random bubble is chosen from your 5 bubble deck and is used to fight!")
+        time.sleep(1)
+        system('clear')
         random_bubble_used_to_challenge = random.randint(0,len(player_deck)-1)
         player_deck[random_bubble_used_to_challenge].fight(bubble1,"contest",0)
 
@@ -451,7 +389,7 @@ def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, b
 '''def catch_wild_bubbles(tier,starting_point):
   if "grass" in starting_point.lower():
     wording = ["You followed some trail that led into a mysterious open area and heard some noises around you.","Some grass seemed to be flattened while something was passing by, you decide to follow the half hidden trail.","The grassland that you arrived at had very open space, but tall grass."]
-    delay_print(wording[random.randint(0,len(wording)-1)])
+    delay_print(random.choice(wording))
     delay_print("Just then, a bubble showed up!")
 
 ''' #idk if we need this, its kinda like battle validation
@@ -480,6 +418,8 @@ def search():
             again = input("Search again? y/n ")
 
             if (again == "y"):
+                time.sleep(1)
+                system('clear')
                 search()
 
             break
@@ -490,6 +430,8 @@ def search():
         print(search_results[searching - 1])
         again = input("Search again? y/n ")
         if (again == "y"):
+            time.sleep(1)
+            system('clear')
             search()
 
 
@@ -504,24 +446,28 @@ def delay_print_begin(s):
 
 #############################################################
 delay_print(
-    "\n\n\nDo you want to start the storyline?\nPress y for yes and n for no.\n"
+    f"Do you want to start the storyline?\nPress {bcolors.GREEN}y for yes{bcolors.WHITE} and {bcolors.RED}n for no.{bcolors.WHITE}\n"
 )
 storyline_start = input("")
 storyline_start.lower()
 
 while storyline_start != "y":
     delay_print(
-        "You have exited the storyline.\nYou can view the Bubble-DEX but you cannot play the game unless you enter the storyline.\nDo you want to re-enter the storyline?\n(y or n)\n"
+        f"You have exited the storyline.\nYou can view the Bubble-DEX but {bcolors.BOLD}you cannot play the game unless you enter the storyline.{bcolors.END}\nDo you want to re-enter the storyline?\n(y or n)\n"
     )
     storyline_start_confirm = input("")
 
     if storyline_start_confirm == "y":
         storyline_start = "y"
+        time.sleep(1)
+        system('clear')
 
     if storyline_start_confirm != "y":
-        delay_print("\nDo you want to view the BUBBLE_DEX?\n(y or n)\n")
+        delay_print(f"\nDo you want to view the {bcolors.YELLOW}BUBBLE_DEX?{bcolors.END}\n(y or n)\n")
         bubble_dex_start = input("")
         if bubble_dex_start == "y":
+          time.sleep(1)
+          system('clear')
           search()
 
     break
@@ -549,48 +495,12 @@ while storyline_start == "y":
         f"\n{bcolors.WATER_TYPE}BUBBLE QUEST:\n{bcolors.NORMAL_AND_AIR_TYPE}LIGHT {bcolors.WATER_TYPE}AND {bcolors.PSYCHIC_AND_POISON_TYPE}DARK\n{bcolors.WATER_TYPE}"
     )
     delay_print("---\n")
-    delay_print(
-        "..........     .          .     ..........     ..........     .              ..........\n"
-    )
-    delay_print(
-        ".        .     .          .     .        .     .        .     .              .         \n"
-    )
-    delay_print(
-        ".        .     .          .     .        .     .        .     .              .         \n"
-    )
-    delay_print(
-        "........       .          .     .........      .........      .              ..........\n"
-    )
-    delay_print(
-        ".        .     .          .     .        .     .        .     .              .         \n"
-    )
-    delay_print(
-        ".        .      .        .      .        .     .        .     .              .         \n"
-    )
-    delay_print(
-        "........         ........       .........      ........       ..........     ..........\n"
-    )
-    delay_print("\n\n\n\n")
-    delay_print(
-        "   ....        .          .     ..........     ..........     ...........\n"
-    )
-    delay_print(
-        " .      .      .          .     .              .                   .    \n"
-    )
-    delay_print(
-        ".        .     .          .     .              .                   .    \n"
-    )
-    delay_print(
-        ".    .   .     .          .     ..........     ..........          .    \n"
-    )
-    delay_print(
-        " .    . .      .          .     .                       .          .    \n"
-    )
-    delay_print(
-        "  .... .        .        .      .                       .          .    \n"
-    )
-    delay_print(
-        "        .        ........       ..........     ..........          .")
+    delay_print("  ____            _       _       _              ____                         _ \n")
+    delay_print(" |  _ \          | |     | |     | |            / __ \                       | |\n")
+    delay_print(" | |_) |  _   _  | |__   | |__   | |   ___     | |  | |  _   _    ___   ___  | |_ \n")
+    delay_print(" |  _ <| | | | | | '_ \  | '_ \  | |  / _ \    | |  | | | | | |  / _ \ / __| |  _|\n")
+    delay_print(" | |_) | | |_| | | |_) | | |_) | | | |  __/    | |__| | | |_| | |  __/ \__ \ |  |_ \n")
+    delay_print(" |____/   \__._| |_.__/  |_.__/  |_|  \___|     \___\_\  \__._|  \___| |___/  \___|\n")
     print(bcolors.NORMAL_AND_AIR_TYPE)
     print("\n5")
     time.sleep(1)
@@ -602,17 +512,21 @@ while storyline_start == "y":
     time.sleep(1)
     print("\n1")
     time.sleep(1)
-    print("\nSTART!")
+    print("\nSTARTING...")
+    time.sleep(5)
+    system('clear')
 
     player_bubble_amt = 0
-    delay_print("\nDo you want to skip the tutorial?(Y or N)\n")
+    delay_print(f"Do you want to skip the tutorial?({bcolors.RED}Y{bcolors.END} or {bcolors.GREEN}N{bcolors.END})\n")
     skip_tutorial = input(str(''))
+    time.sleep(1)
+    system('clear')
     
     while skip_tutorial == 'N':
 
 
       delay_print(
-          "\n\n\n\n\nBubbles are mysterious creatures with magical powers.\nOur world is filled with these wonderful and powerful creatures.\nOnly three people every year are chosen to start their Bubble Quest here in my labratory.\n"
+          "Bubbles are mysterious creatures with magical powers.\nOur world is filled with these wonderful and powerful creatures.\nOnly three people every year are chosen to start their Bubble Quest here in my labratory.\n"
       )
 
       delay_print(
@@ -623,8 +537,12 @@ while storyline_start == "y":
       delay_print(
           "\nBefore you start your Bubble Quest, you will need a bubble to help you.\nYou can choose one from the three bubbles I have here.\n"
       )
+      time.sleep(1)
+      system('clear')
 
-      delay_print("\n-You reach towards the bubbles.-\n")
+      delay_print("-You reach towards the bubbles.-\n")
+
+      time.sleep(3)
 
       delay_print(
           "\nDon't choose yet! I need to tell you more about the rules!\nThe bubble with the higher speed goes first in a battle, but if they have the same speed the first attacker is declared randomly.\n"
@@ -634,14 +552,20 @@ while storyline_start == "y":
           "\nWhen it's your turn, you use a move.\nLess powerful moves do less damage, but give you energy, the opposite happens for stronger moves, they do more damage, but use your energy.\nSpeaking of energy, if you don't have any energy left during a battle, your bubble loses health. In this region, they only lose 5 health.\n"
       )
 
+      time.sleep(2)
+      system('clear')
+
       delay_print(
-          "\nSome bubbles can also evolve.\nFor example, Gunner bubble can evolve into Laser bubble once it reaches a certain level.\nAlso, once a bubble reaches a certain level, it can even learn a new move!\n"
+          "Some bubbles can also evolve.\nFor example, Gunner bubble can evolve into Laser bubble once it reaches a certain level.\nAlso, once a bubble reaches a certain level, it can even learn a new move!\n"
       )
 
       delay_print(
           "\nNow that you know more about the rules of bubble quest, I think it is time for you to choose your bubble.\n"
       )
       break
+    system('clear')
+
+    delay_print("Please pick a bubble:")
 
     delay_print(f"\n{jab.stats}\n")
 
@@ -649,7 +573,7 @@ while storyline_start == "y":
 
     delay_print(f"\n{mow.stats}\n")
 
-    delay_print("\nPlease choose a bubble.\n(Write the name in lowercase.)\n")
+    delay_print("\nPlease choose a bubble --\n")
     bubble1 = input("")
 
     bubble1 = bubble1.lower()
@@ -704,28 +628,36 @@ while storyline_start == "y":
           player_bubble_amt += 1
 
       delay_print(f"\n-You picked {bubble1.upper()}!-\n")
+      time.sleep(1)
+      system('clear')
 
 
 
     delay_print(
-        "\nNow that you have a bubble, you should learn more about it.\nI have a device here called a Bubble-DEX that can tell you the stats of any bubble once you scan it.\nTry it.\n"
+        "Now that you have a bubble, you should learn more about it.\nI have a device here called a Bubble-DEX that can tell you the stats of any bubble once you scan it.\nTry it.\n"
     )
 
+    time.sleep(1)
+
     delay_print(
-        "\n-You scanned the bubble you choose with your Bubble-DEX.-\n")
+        "\n-You scanned the bubble you choose with your Bubble-DEX.-\n"
+    )
 
     if bubble1 == 'jab':
-        delay_print(f"{jab.stats}\n")
+      delay_print(f"{jab.stats}\n")
 
     if bubble1 == 'spin':
-        delay_print(f"{spin.stats}\n")
+      delay_print(f"{spin.stats}\n")
 
     if bubble1 == 'mow':
-        delay_print(f"{mow.stats}\n")
+      delay_print(f"{mow.stats}\n")
 
     delay_print(
         "\n-The professor gave you the Bubble-DEX and 50 capture discs to catch bubbles and sends you off on your journey.-\n"
     )
+
+    time.sleep(1)
+    system('clear')
 
     #updating the vars
     for i in range(50):
@@ -745,6 +677,9 @@ while storyline_start == "y":
 
     delay_print(f"{fake.stats}")
 
+    time.sleep(3)
+    system('clear')
+
     random_trainer('Jack', "f", "t", "t", "t", "t", 1, player_deck[0], None, None, None, None)
     
     delay_print(
@@ -753,14 +688,17 @@ while storyline_start == "y":
 
 
 
-    ask(
+    left_or_right = ask(
       "-Soon, you arrived at a fork in the road.\nFrom what you see, you know that the left side leads to a forest and the right side leads to a clearing.\nFrom the map the professor gave you, you know that the roads will lead to the same place, but the paths are different.\nDo you go left or right?"
       ,"l","r"
     )
 
-    if answer[0] == 'l':
+    time.sleep(1)
+    system('clear')
+
+    if left_or_right == 'l':
         delay_print(
-            "-You walked down the path that heads into the forest and entered it.-\n"
+            f"-You walked down the path that heads into the {bcolors.GREEN}forest{bcolors.END} and entered it.-\n"
         )
 
         delay_print("Inside the forest, you met some bubbles!\n")
@@ -779,7 +717,10 @@ while storyline_start == "y":
         else:
           delay_print("\n-You ignored the shiny thing and continued on your journey.-\n")
 
-    if answer[0] == 'r':
+    time.sleep(1)
+    system('clear')
+
+    if left_or_right == 'r':
         delay_print(
             "-You walked down the path that heads into the clearing and entered it.-\n"
         )
@@ -794,14 +735,16 @@ while storyline_start == "y":
       "There is a merchant sitting underneath a tree.\nDo you go to him?\n(y or n)\n"
     )
     merchant = input('')
+    time.sleep(1)
+    system('clear')
     if merchant == 'y':
-      delay_print("\nHe saw you and opened his shop.\n")
+      delay_print("He saw you and opened his shop.\n")
       shop(random.randint(10,15), random.randint(5,15))
       merchant == ''
     else:
       delay_print("You kept on walking.")
     delay_print(
-        "\n-After a while, you see a building in the distance.\nDo you want to go there?\n(y or n)-\n"
+        "-After a while, you see a building in the distance.\nDo you want to go there?\n(y or n)-\n"
     )
     building1 = str(input(""))
 
@@ -821,14 +764,20 @@ while storyline_start == "y":
             "\n-You head towards the building but a bubble jumps out of the grass!-\n"
         )
 
+        time.sleep(1)
+        system('clear')
+
         Bubble.battle_validation(tierb, True, False, None, Person, player_bubble_amt)
 
         delay_print(
             "\n-You continued to the building and once you got there, you saw a sign that showed that the building was home to a contest.-\n"
         )
 
-        delay_print("-Do you want to join the contest?-\n-If you win, you get 10,000$ and a lot of items!\n-")
+        delay_print("-Do you want to join the contest?-\n-If you win, you get $10,000 and a lot of items!\n-")
         contest1 = str(input(""))
+
+        time.sleep(1)
+        system('clear')
 
     while building1 == 'n' or contest1 == 'n':
         delay_print(
@@ -840,7 +789,15 @@ while storyline_start == "y":
     if walk_around1 == True:
       delay_print("\n-Two bubbles jump out of the grass!-\n")
 
+      time.sleep(1)
+      system('clear')
+
       Bubble.battle_validation(tierc, True, False, None, Person, player_bubble_amt)
+
+      delay_print("\n Phew, one more to go...")
+
+      time.sleep(1)
+      system('clear')
       
       Bubble.battle_validation(tierc, True, False, None, Person, player_bubble_amt)
 
@@ -848,26 +805,40 @@ while storyline_start == "y":
 
       contest1 = "y"
 
+      time.sleep(1)
+      system('clear')
+
 
     if contest1 == 'y' or contest1 == "yes":
       
-      delay_print("\n-You entered the contest!-\n")
+      delay_print("-You entered the contest!-\n")
       delay_print(f"\n{player.name}, please go to Arena {random.randint(1, 10)}. Your match is about to begin.\n")
       delay_print("--------------------")
 
       delay_print(f"\n{player.name} V.S. Amy! Let the battle begin!\n")
+
+      time.sleep(1)
+      system('clear')
+
       random_trainer('Amy', 'c', "f", "f", "f", "f", "x", player_deck[0], None, None, None, None)
 
       if len(lost_contest_1) == 0:
         delay_print("\nCongrats!\nYou have now advanced to the next stage of the tournament!\n")
         delay_print("Do you want to start the next battle?\nIf you press c, you will be given an opportunity to change your deck before the fight begins. Or press y to continue to next battle (if you don't want to, press n)\n")
         start = input("\n")
+
+        time.sleep(1)
+        system('clear')
         
         if start == 'y':
           delay_print(f"\n{player.name}, please report to Arena {random.randint(1, 10)}. Your match is about to begin.\n")
           delay_print("--------------------")
 
           delay_print(f"\n{player.name} V.S. Ken! Let the battle begin!\n")
+
+          time.sleep(1)
+          system('clear')
+
           random_trainer('Ken', 'b', "c", "c", "b", "a", "x", player_deck[0], None, None, None, None)
           
         elif start != "n" and start != "y":
@@ -876,6 +847,10 @@ while storyline_start == "y":
           delay_print("--------------------")
 
           delay_print(f"\n{player.name} V.S. Ken! Let the battle begin!\n")
+
+          time.sleep(1)
+          system('clear')
+
           random_trainer('Ken', 'b', "c", "f", "b", "a", "x", player_deck[0], None, None, None, None) 
           lost_contest_1.clear()
 
@@ -884,23 +859,32 @@ while storyline_start == "y":
 
             delay_print("Wow! You are such a strong trainer! There are only 8 trainers left in this contest!\n")
             read_tournament_1_sign = input("There is a sign ahead, would you like to read it?\nY or N\n")
+            time.sleep(1)
+            system('clear')
             if read_tournament_1_sign != "Y":
               delay_print("The next day, you finish breakfast and wait for your name to be called, but it never got called.\n")
               delay_print("You decide to wait a little longer.\n")
+              delay_print("Waiting...")
               time.sleep(10)
+              system('clear')
               delay_print("Finally, you give up waiting and walk around the propery and try to find someone who can knows what is happening, before you met someone, you encountered the same sign from yester day, you walk up to it and start reading.")
-              
-          
 
+            time.sleep(1)
+            system('clear')
+              
             delay_print("\n\nThere are factors delaying the tournament, everyone's next round will be delayed until further notice. Sorry for your inconvenience\n\n")
           
-            ask("Because there contest has tempoarily closed down, you have a chance to catch some more bubbles.\nDo you want to go?", 'Y', 'N')
+            closed_down_contest = ask("Because there contest has tempoarily closed down, you have a chance to catch some more bubbles.\nDo you want to go?", 'Y', 'N')
           
+            time.sleep(1)
+            system('clear')
 
-          if answer[0] == 'Y':
+          if closed_down_contest == 'Y':
             delay_print("\nYou headed outside and met a thug bending some of the water pipes!")
             delay_print("\nYou walk towards him to talk.")
             delay_print("\n'Whaddaya want, punk?'")
+            time.sleep(1)
+            system('clear')
             random_trainer("Grunt A", 'c', 'f', 'f', 'f', 'f', "5" , player_deck[0], None, None, None, None)
 
             if len(lost_grunt_1) == 0:
@@ -912,10 +896,14 @@ while storyline_start == "y":
               delay_print("\nThe grunt ran away dancing...")
               lost_grunt_1.clear()
 
+            time.sleep(1)
+            system('clear')
+
             delay_print("\nThe loudspeaker buzzed and announced that the contests will resume tomorrow, telling everyone to have a nice day.\n")
             print("The quest has ended for now")
             print("It will be continued soon...")
             time.sleep(10)
+            system('clear')
 
 
 
@@ -926,7 +914,12 @@ while storyline_start == "y":
         if start == 'n':
           delay_print("You chickened out and went back to the lobby...\n")
           delay_print("Press n when you are ready for the fight.\n")
-          start == input("")
+          start = input("")
+
+          #is this WIP?
+
+          time.sleep(1)
+          system('clear')
         
         
 
@@ -935,8 +928,10 @@ while storyline_start == "y":
         delay_print("You can still get back in the contest, but you will not get the prizes if you win.\n")
         delay_print("Do you want to re-enter? y or n\n")
         re_enter_contest = input("")
+        time.sleep(1)
+        system('clear')
         if re_enter_contest == "y":
           get_reward = False
-          lost_contest_1.remove[1]
+          lost_contest_1.remove(1)
           
 
