@@ -179,7 +179,7 @@ laser = Bubble('Laser', '50', shoot, rapid_fire, laser_beam, tracking_laser, '7'
 
 gunner = Bubble('Gunner', '30', gunfire, sniper_shot, bulletstorm, none, '3', '560', '1', '0', 'Steel', '3', '3', '30', '560',laser,'30')
 
-asilate = Bubble('Asilate', '20', creep, shadow_strike, hidden_blade, none, '8', '580', '1', '0', 'Dark', '4' '3', '20', '580', 'None_Yet', 'Unknown_For_Now')
+asilate = Bubble('Asilate', '20', creep, shadow_strike, hidden_blade, none, '8', '580', '1', '0', 'Dark', '4', '3', '20', '580', 'None_Yet', 'Unknown_For_Now')
 
 grelone = Bubble('Grelone', '18', bite, seed_bomb, grass_blade, none, '3', '460', '1', '0', 'Grass', '4','3', '18', '480', 'None_Yet', 'Unknown_For_Now')
 
@@ -195,3 +195,26 @@ Speed: 3 mph
 Moves: Bite, Seed Bomb, and Grass Blade
 Rank: Tier C
 '''
+
+all_bubbles = [
+	penta_spike, 
+	jab, 
+	slasher, 
+	spin, 
+	screen, 
+	mow, 
+	fake, 
+	rip, 
+	shield, 
+	smasher, 
+	rager, 
+	twin, 
+	miner, 
+	cannonball, 
+	antser, 
+	tank, 
+	laser, 
+	gunner, 
+	asilate, 
+	grelone
+]

@@ -4,7 +4,7 @@ import random
 import colorama
 from os import system
 from helper import *
-from helper import money
+#from helper import money
 #vars
 capture_disc_count=[]
 opponent_name = []

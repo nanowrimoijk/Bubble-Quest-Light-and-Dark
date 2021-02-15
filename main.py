@@ -69,10 +69,11 @@ Air
 '''
 from bubble import *
 from bubblesNmoves import *
+from search import *
 import time
 import sys
 import random
-from move import Move
+#from move import Move
 from os import system
 
 #saving progress
@@ -187,26 +188,7 @@ BUBBLE_DEX = {
   tank.stats,
 }''' #uncomment if needed
 
-#search:
 
-search_names = [
-    "Jab", "Penta-Spike", "Spin", "Slasher", "Mow", "Screen", "Fake", "Rip",
-    "Shield", "Twin", "Miner", "Rager", "Smasher", "Cannonball", "Antser",
-    "Gunner", "Laser", "Tank"
-]
-
-#just add a new bubble every time you make a new one
-
-search_results = [
-    jab.stats, penta_spike.stats, spin.stats, slasher.stats, mow.stats,
-    screen.stats, fake.stats, rip.stats, shield.stats, rager.stats, twin.stats,
-    miner.stats, smasher.stats, cannonball.stats, antser.stats, gunner.stats,
-    laser.stats, tank.stats
-]  #the search_results here are different to the search names
-
-#if you want them in aphebetical order:
-#search_names=sorted(search_names)
-#search_results=sorted(search_results)
 
 def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, bubble6, bubble7, bubble8, bubble9, bubble10):
   accept_challenge = random.randint(1,4)
@@ -217,7 +199,7 @@ def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, b
   except ValueError:
     pass
 
-	# this function can be used in place of lines 433 through 496
+
   def random_bubble(bubble):
 	  if(bubble == "f"):
 		  bubble = tierf[random.randint(0,len(tierf)-1)]
@@ -233,77 +215,11 @@ def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, b
 		  bubble = tierl[random.randint(0,len(tierl)-1)]
 	  return bubble
 
-	#random_bubble(bubble1)
-	#random_bubble(bubble2)
-	#random_bubble(bubble3)
-	#random_bubble(bubble4)
-	#random_bubble(bubble5)
-
-    
-  if(bubble1 == "f"):
-    bubble1 = tierf[random.randint(0,len(tierf)-1)]
-  if(bubble1 == "c"):
-    bubble1 = tierc[random.randint(0,len(tierc)-1)]
-  if(bubble1 == "b"):
-    bubble1 = tierb[random.randint(0,len(tierb)-1)]
-  if(bubble1 == "a"):
-    bubble1 = tiera[random.randint(0,len(tiera)-1)]
-  if(bubble1 == "s"):
-    bubble1 = tiers[random.randint(0,len(tiers)-1)]
-  if(bubble1 == "l"):
-    bubble1 = tierl[random.randint(0,len(tierl)-1)]
-
-  if(bubble2 == "f"):
-    bubble2 = tierf[random.randint(0,len(tierf)-1)]
-  if(bubble2 == "c"):
-    bubble2 = tierc[random.randint(0,len(tierc)-1)]
-  if(bubble2 == "b"):
-    bubble2 = tierb[random.randint(0,len(tierb)-1)]
-  if(bubble2 == "a"):
-    bubble2 = tiera[random.randint(0,len(tiera)-1)]
-  if(bubble2 == "s"):
-    bubble2 = tiers[random.randint(0,len(tiers)-1)]
-  if(bubble2 == "l"):
-    bubble2 = tierl[random.randint(0,len(tierl)-1)]
-
-  if(bubble3 == "f"):
-    bubble3 = tierf[random.randint(0,len(tierf)-1)]
-  if(bubble3 == "c"):
-    bubble3 = tierc[random.randint(0,len(tierc)-1)]
-  if(bubble3 == "b"):
-    bubble3 = tierb[random.randint(0,len(tierb)-1)]
-  if(bubble3 == "a"):
-    bubble3 = tiera[random.randint(0,len(tiera)-1)]
-  if(bubble3 == "s"):
-    bubble3 = tiers[random.randint(0,len(tiers)-1)]
-  if(bubble3 == "l"):
-    bubble3 = tierl[random.randint(0,len(tierl)-1)]
-
-  if(bubble4 == "f"):
-    bubble4 = tierf[random.randint(0,len(tierf)-1)]
-  if(bubble4 == "c"):
-    bubble4 = tierc[random.randint(0,len(tierc)-1)]
-  if(bubble4 == "b"):
-    bubble4 = tierb[random.randint(0,len(tierb)-1)]
-  if(bubble4 == "a"):
-    bubble4 = tiera[random.randint(0,len(tiera)-1)]
-  if(bubble4 == "s"):
-    bubble4 = tiers[random.randint(0,len(tiers)-1)]
-  if(bubble4 == "l"):
-    bubble4 = tierl[random.randint(0,len(tierl)-1)]
-
-  if(bubble5 == "f"):
-    bubble5 = tierf[random.randint(0,len(tierf)-1)]
-  if(bubble5 == "c"):
-    bubble5 = tierc[random.randint(0,len(tierc)-1)]
-  if(bubble5 == "b"):
-    bubble5 = tierb[random.randint(0,len(tierb)-1)]
-  if(bubble5 == "a"):
-    bubble5 = tiera[random.randint(0,len(tiera)-1)]
-  if(bubble5 == "s"):
-    bubble5 = tiers[random.randint(0,len(tiers)-1)]
-  if(bubble5 == "l"):
-    bubble5 = tierl[random.randint(0,len(tierl)-1)]
+  bubble1 = random_bubble(bubble1)
+  bubble2 = random_bubble(bubble2)
+  bubble3 = random_bubble(bubble3)
+  bubble4 = random_bubble(bubble4)
+  bubble5 = random_bubble(bubble5)
 
   delay_print(f"You are challenged by Trainer {name}!\n\n")
   opponent_name.clear()
@@ -394,7 +310,7 @@ def random_trainer(name, bubble1, bubble2, bubble3, bubble4, bubble5, bubbles, b
 
 ''' #idk if we need this, its kinda like battle validation
 
-
+'''
 def search():
 
     print("These are the bubbles in the Bubble-DEX")
@@ -433,6 +349,7 @@ def search():
             time.sleep(1)
             system('clear')
             search()
+'''
 
 
 def delay_print_begin(s):
