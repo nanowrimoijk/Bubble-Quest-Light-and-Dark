@@ -125,6 +125,16 @@ sniper_shot = Move("Sniper Shot", 5, 120, "None", "Steel", "None", 0)
 
 bulletstorm = Move("Bulletstorm", 15, 200, "None", "Steel", "None", 0)
 
+creep = Move("Creep", False, False, "none", "none", "none", 0)
+
+shadow_strike = Move("Shadow Strike", False, False, "none", "none", "none", 0)
+
+hidden_blade = Move("Hidden Blade", False, False, "none", "none", "none", 0)
+
+seed_bomb = Move("Seed Bomb", False, False, "none", "none", "none", 0)
+
+grass_blade = Move("Grass Blade", False, False, "none", "none", "none", 0)
+
 #
 #
 #
@@ -169,8 +179,19 @@ laser = Bubble('Laser', '50', shoot, rapid_fire, laser_beam, tracking_laser, '7'
 
 gunner = Bubble('Gunner', '30', gunfire, sniper_shot, bulletstorm, none, '3', '560', '1', '0', 'Steel', '3', '3', '30', '560',laser,'30')
 
+asilate = Bubble('Asilate', '20', creep, shadow_strike, hidden_blade, none, '8', '580', '1', '0', 'Dark', '4' '3', '20', '580', 'None_Yet', 'Unknown_For_Now')
+
+grelone = Bubble('Grelone', '18', bite, seed_bomb, grass_blade, none, '3', '460', '1', '0', 'Grass', '4','3', '18', '480', 'None_Yet', 'Unknown_For_Now')
+
 
 
 #Make the bubble above this comment
-#Format Example: bubble = Bubble('Name', 'Bubble Energy', First Move, Second Move, Third Move, Fourth Move, 'Bubble Speed', 'Bubble Health', 'level', 'XP', 'type','amount of moves', 'total moves', 'base energy', 'base health', Evolves to, 'Evolution level') 
+#Format Example: bubble = Bubble('Name', 'Bubble Energy', First Move, Second Move, Third Move, Fourth Move, 'Bubble Speed', 'Bubble Health', 'level', 'XP', 'type','maximum moves', 'total moves', 'base energy', 'base health', Evolves to, 'Evolution level') 
 
+'''
+#Grelone:
+Type: Grass
+Speed: 3 mph
+Moves: Bite, Seed Bomb, and Grass Blade
+Rank: Tier C
+'''
