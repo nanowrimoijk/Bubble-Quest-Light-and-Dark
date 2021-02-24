@@ -70,8 +70,10 @@ Air
 from bubble import *
 from bubblesNmoves import *
 from search import *
+from helper import *
+from tile import *
 import time
-import sys
+#import sys
 import random
 #from move import Move
 from os import system
@@ -350,15 +352,6 @@ def search():
             system('clear')
             search()
 '''
-
-
-def delay_print_begin(s):
-    # print one character at a time
-    #https://stackoverflow.com/questions/9246076/how-to-print-one-character-at-a-time-on-one-line
-    for c in s:
-        sys.stdout.write(c)
-        sys.stdout.flush()
-        time.sleep(begin_delay_timer)
 
 
 #############################################################
@@ -817,8 +810,13 @@ while storyline_start == "y":
             system('clear')
 
             delay_print("\nThe loudspeaker buzzed and announced that the contests will resume tomorrow, telling everyone to have a nice day.\n")
-            print("The quest has ended for now")
-            print("It will be continued soon...")
+            
+
+            catch_bubbles_1 = input("Do you want to catch bubbles?\n")
+            if catch_bubbles_1 != 'y' or catch_bubbles_1 != 'Y':
+              delay_print("You went to sleep.\n")
+            else:
+              delay_print("You went outside.\n")
             time.sleep(10)
             system('clear')
 

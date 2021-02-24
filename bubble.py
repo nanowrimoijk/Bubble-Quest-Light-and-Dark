@@ -4,7 +4,7 @@ import random
 import colorama
 from os import system
 from helper import *
-#from helper import money
+
 #vars
 capture_disc_count=[]
 opponent_name = []
@@ -124,7 +124,11 @@ class Bubble:
     if self.move4.energy == "":
       self.move4.energy == 0
 
-    self.stats = f"\n{self.name}:\nType: {self.bubble_type}\n{bcolors.GREEN}Health: {self.bars}\n{bcolors.RED}Level: {self.level}\n{bcolors.YELLOW}Speed: {self.speed}{bcolors.END}\n{self.move1.name} ({move1.move_type}): Does {move1.damage} damage + {move1.energy} energy\n{self.move2.name} ({move2.move_type}): Does {move2.damage} + {move2.energy} energy\n{self.move3.name} ({move3.move_type}): Does {move3.damage} damage - {move3.energy} energy\n{self.move4.name} ({move4.move_type}): Does {move4.damage} - {move4.energy}\nThis bubble starts with {self.energy} energy."
+    
+
+      
+    
+    self.stats = f"\n{self.name}:\nType: {self.bubble_type}\n{bcolors.GREEN}Health: {self.bars}\n{bcolors.RED}Level: {self.level}\n{bcolors.YELLOW}Speed: {self.speed}{bcolors.END}\n{self.move1.name} ({move1.move_type}): Does {move1.damage} damage + {move1.energy} energy\n{self.move2.name} ({move2.move_type}): Does {move2.damage} + {move2.energy} energy\n{self.move3.name} ({move3.move_type}): Does {move3.damage} damage - {move3.energy} energy\n{self.move4.name} ({move4.move_type}): Does {move4.damage} - {move4.energy}\nThis bubble starts with {self.energy} energy.\nEvolves into {self.evolution.name}."
 
   def multiple_fight_v(your_bubbles_amount,opponents_bubbles_amount,kind,opponents_first_bubble,second,third,fourth,fifth):
     list_of_bubbles = []
