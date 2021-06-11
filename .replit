@@ -1,2 +1,2 @@
 language = "python3"
-run = "clear && python main.py"
+run = "clear && python map_main.py"

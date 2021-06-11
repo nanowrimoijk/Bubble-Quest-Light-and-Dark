@@ -69,9 +69,9 @@ Air
 '''
 from bubble import *
 from bubblesNmoves import *
-from search import *
+import helper.search
 from helper import *
-from tile import *
+from map_stuff.tile import *
 import time
 #import sys
 import random

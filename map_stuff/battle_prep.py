@@ -39,9 +39,9 @@ def enemy_choose(bubble):
 
 def player_choose(bubble, enemy):
 	system('clear')
-	print(f"Your {bubble.name} - {bubble.health}/{bubble.max_health} health ({bubble.energy} energy)")
+	print(f"Your {bubble.name} - {bubble.health}/{bubble.health_MAX} health ({bubble.energy} energy)")
 	print
-	print(f"Enemy {enemy.name} - {enemy.health}/{enemy.max_health}")
+	print(f"Enemy {enemy.name} - {enemy.health}/{enemy.health_MAX}")
 	print
 	print
 

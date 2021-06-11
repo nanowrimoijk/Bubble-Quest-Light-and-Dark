@@ -39,7 +39,7 @@ class Move:
           damage = 10
           damage_taken = damage_taken/2
           shield_enabled = False
-          pass
+          pass 
       if effect == 'reduce_dmg2': #Also gains energy
         if shield_enabled == True and damage_taken > 5:
           damage = 0
@@ -92,3 +92,18 @@ class Move:
           pass
       if effect == 'attract_attention': #Makes all opposing bubbles attack it no matter where they aim, kinda like a meat shield. Has a limit to how much damage it can take.
         pass
+	
+  def effectivness(self, target):
+    effect1 = target.type1.type_adv(self.move_type)
+    effect2 = None
+    effect3 = None
+    if(not target.type2 == None):
+      effect2 = target.type2.type_adv(self.move_type)
+    if(not target.type3 == None):
+      effect3 = target.type3.type_adv(self.move_type)
+			
+    return {
+			"ef1": effect1, 
+			"ef2": effect2, 
+			"ef3": effect3
+		}

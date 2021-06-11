@@ -9,9 +9,14 @@ class Tile:
 wall = Tile("wall", "#", True, False)
 dirt = Tile("dirt", ' ', False, False)
 grass = Tile("grass", '˶', False, True)
-
+jab = Tile("jab", "(J)", True, False)
+spin = Tile("spin", "(S)", True, False)
+mow = Tile("mow", "(M)", True, False)
 tiles = [
 	wall, 
 	dirt, 
-	grass
+	grass,
+  jab,
+  spin,
+  mow
 ]

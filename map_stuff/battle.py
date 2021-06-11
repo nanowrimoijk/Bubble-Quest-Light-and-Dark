@@ -1,4 +1,5 @@
-from battle_stuff import *
+from map_stuff.battle_prep import *
+from os import system
 
 def wild_battle(player, enemy):
 	numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
@@ -48,8 +49,8 @@ def wild_battle(player, enemy):
 
 	input('press enter')
 
-	bubble.health = bubble.max_health
-	bubble.energy = bubble.max_energy
-	enemy.health = enemy.max_health
-	enemy.energy = enemy.max_energy
+	bubble.health = bubble.health_MAX
+	bubble.energy = bubble.energy_MAX
+	enemy.health = enemy.health_MAX
+	enemy.energy = enemy.energy_MAX
 #

@@ -3,7 +3,8 @@ import sys
 import random
 import colorama
 from os import system
-from helper import *
+from helper.helper import *
+from helper.type import *
 
 #vars
 capture_disc_count=[]
@@ -79,24 +80,20 @@ class Item:
 
 
 class Bubble:
-  def __init__(self, name, energy, move1, move2, move3, move4, speed, health, level, XP, bubble_type, max_moves, total_moves, energyc, healthc,evolution,evolution_level):
+  def __init__(self, name, energy, moves, speed, health, level, XP, bubble_type, evolution, evolution_level):
     # save variables as attributes
 
     self.name = name
     self.energy = float(energy)
-    self.move1 = move1
-    self.move2 = move2
-    self.move3 = move3
-    self.move4 = move4
-    self.total_moves = float(total_moves)
+    self.moves = moves
     self.speed = float(speed)
-    self.bars = float(health) # Amount of health bars
+    self.health = float(health) # Amount of health
     self.level = float(level)
     self.level_MAX = float(100)
     self.XP = float(XP)
     self.XP_MAX = float(20)
-    self.healthc = float(healthc)
-    self.energyc = float(energyc)
+    self.health_MAX = float(health)
+    self.energy_MAX = float(energy)
     self.evolution = evolution
     try:
       self.evolution_level = float(evolution_level)
@@ -105,30 +102,12 @@ class Bubble:
     except ValueError:
       self.evolution_level = 100
 
-    self.moves = [self.move1.name, self.move2.name, self.move3.name, self.move4.name]
 
-    self.moves_damage = [self.move1.damage, self.move2.damage, self.move3.damage, self.move4.damage]
-    
-    self.moves_energy = [self.move1.energy, self.move2.energy, self.move3.energy*-1, self.move4.energy*-1]
-
-
-    self.max_moves = float(max_moves)
     self.bubble_type = bubble_type
-
-    if self.move4 == "":
-      self.move4 == "NOT AVAILABLE"
-    
-    if self.move4.damage == "":
-      self.move4.damage == 0
-
-    if self.move4.energy == "":
-      self.move4.energy == 0
-
-    
 
       
     
-    self.stats = f"\n{self.name}:\nType: {self.bubble_type}\n{bcolors.GREEN}Health: {self.bars}\n{bcolors.RED}Level: {self.level}\n{bcolors.YELLOW}Speed: {self.speed}{bcolors.END}\n{self.move1.name} ({move1.move_type}): Does {move1.damage} damage + {move1.energy} energy\n{self.move2.name} ({move2.move_type}): Does {move2.damage} + {move2.energy} energy\n{self.move3.name} ({move3.move_type}): Does {move3.damage} damage - {move3.energy} energy\n{self.move4.name} ({move4.move_type}): Does {move4.damage} - {move4.energy}\nThis bubble starts with {self.energy} energy.\nEvolves into {self.evolution.name}."
+    self.stats = f"\n{self.name}:\nType: {self.bubble_type}\n{bcolors.GREEN}Health: {self.health}\n{bcolors.RED}Level: {self.level}\n{bcolors.YELLOW}Speed: {self.speed}{bcolors.END}\n{self.moves[0].name} ({self.moves[0].move_type}): Does {self.moves[0].damage} damage + {self.moves[0].energy} energy\n{self.moves[1].name} ({self.moves[1].move_type}): Does {self.moves[1].damage} + {self.moves[1].energy} energy\n{self.moves[2].name} ({self.moves[2].move_type}): Does {self.moves[2].damage} damage - {self.moves[2].energy} energy\n{self.moves[3].name} ({self.moves[3].move_type}): Does {self.moves[3].damage} - {self.moves[3].energy}\nThis bubble starts with {self.energy} energy.\nEvolves into {self.evolution.name}."
 
   def multiple_fight_v(your_bubbles_amount,opponents_bubbles_amount,kind,opponents_first_bubble,second,third,fourth,fifth):
     list_of_bubbles = []

@@ -1,0 +1,15 @@
+
+What is the plan?
+The repl is getting large and I don't want confusion.
+It is best if we have a plan here so everyone types with the same objective.
+
+(changed this to a text file since we really don't need a python file to chat in)
+
+I am currently rebuilding the battle system because it was kind of messy, to make it easier to use.
+(helper/battle.py, aka what shows when you press run)
+we should also probably figure out our storyline before we do much else
+-Glace
+
+new battle system *should* be working for both single and multi battles, turns out i had created a test bubble
+that was messing the whole thing up, still dont know why. 
+-Glace

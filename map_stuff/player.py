@@ -1,5 +1,5 @@
 class Player:
-	def __init__(self, deck):
+	def __init__(self, deck, berries, money, pack):
 		self.char = '@'
 		self.x = 1
 		self.y = 1
@@ -10,3 +10,7 @@ class Player:
 		self.down = ''
 		
 		self.deck = deck
+		self.berries = berries
+		self.money = money
+		self.pack = pack
+#
